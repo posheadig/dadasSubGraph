@@ -1,0 +1,38 @@
+type Token @entity {
+  id: ID!
+  name: String!
+  address: Bytes!
+}
+
+type Pair @entity {
+  id: ID!
+  tokenA: Bytes!
+  tokenB: Bytes!
+  address: Bytes!
+  token0Name: String!
+  token1Name: String!
+  reserve0: BigInt! # Added field for reserve of tokenA
+  reserve1: BigInt! # Added field for reserve of tokenB
+  lastUpdated: BigInt! # Added field for the last update timestamp
+}
+
+type LiquidityPool @entity {
+  id: ID!
+  tokenA: Bytes!
+  tokenB: Bytes!
+  reserveA: BigInt!
+  reserveB: BigInt!
+  totalSupply: BigInt!
+  lastUpdated: BigInt!
+}
+
+type SwapTransaction @entity {
+  id: ID!
+  sender: Bytes!
+  amount0In: BigInt!
+  amount1In: BigInt!
+  amount0Out: BigInt!
+  amount1Out: BigInt!
+  to: Bytes!
+  timestamp: BigInt!
+}

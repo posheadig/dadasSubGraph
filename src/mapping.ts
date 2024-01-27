@@ -22,7 +22,8 @@ export function handleTokenCreated(event: TokenCreatedEvent): void {
   let factoryContract = FactoryContract.bind(Address.fromString(factoryAddress));
   let pairAddress = factoryContract.getPair(event.params.token, Address.fromString(wethAddress));
 
-  if (pairAddress && !pairAddress.isZero()) {
+  // Ensure pairAddress is an Address and is not zero
+ // if (pairAddress && !Address.fromHexString(pairAddress.toHex()).isZero()) {
     let pair = Pair.load(pairAddress.toHex());
     if (pair == null) {
       pair = new Pair(pairAddress.toHex());
@@ -30,7 +31,7 @@ export function handleTokenCreated(event: TokenCreatedEvent): void {
       pair.tokenB = Address.fromString(wethAddress);
     }
     pair.save();
-  }
+ // }
 }
 
 export function handlePairCreated(event: PairCreatedEvent): void {

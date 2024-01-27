@@ -22,6 +22,8 @@ dataSources:
           file: ovTokenBase/abis/ovTokenBase.json
         - name: NameAsSymbolERC20
           file: ovTokenBase/abis/NameAsSymbolERC20.json
+        - name: Factory
+          file: ovTokenBase/abis/Factory.json
       eventHandlers:
         - event: TokenCreated(indexed address,indexed address)
           handler: handleTokenCreated

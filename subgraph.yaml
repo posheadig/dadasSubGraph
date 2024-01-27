@@ -60,6 +60,10 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
+        - LiquidityPool
+        - SwapTransaction
+        - BurnTransaction
+        - MintTransaction
       abis:
         - name: UniswapV2Pair
           file: ./abis/UniswapV2Pair.json
@@ -78,6 +82,7 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
+        - Token
       abis:
         - name: Factory
           file: ./abis/Factory.json

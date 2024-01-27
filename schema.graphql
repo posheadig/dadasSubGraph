@@ -12,3 +12,24 @@ type Pair @entity {
   token0Name: String! 
   token1Name: String!
 }
+
+type LiquidityPool @entity {
+  id: ID!
+  tokenA: Bytes!
+  tokenB: Bytes!
+  reserveA: BigInt!
+  reserveB: BigInt!
+  totalSupply: BigInt!
+  lastUpdated: BigInt!
+}
+
+type SwapTransaction @entity {
+  id: ID!
+  sender: Bytes!
+  amount0In: BigInt!
+  amount1In: BigInt!
+  amount0Out: BigInt!
+  amount1Out: BigInt!
+  to: Bytes!
+  timestamp: BigInt!
+}

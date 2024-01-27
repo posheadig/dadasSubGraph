@@ -62,8 +62,6 @@ dataSources:
       entities:
         - LiquidityPool
         - SwapTransaction
-        - BurnTransaction
-        - MintTransaction
       abis:
         - name: UniswapV2Pair
           file: ./abis/UniswapV2Pair.json
@@ -84,5 +82,4 @@ dataSources:
       abis:
         - name: Factory
           file: ./abis/Factory.json
-      eventHandlers: null
       file: ./src/mapping.ts

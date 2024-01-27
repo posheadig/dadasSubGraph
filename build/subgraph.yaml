@@ -75,13 +75,13 @@ dataSources:
     source:
       address: "0x7E0987E5b3a30e3f2828572Bb659A548460a3003"
       abi: Factory
-      startBlock: 5165647
+      startBlock: 5165640
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Token
+        - Pair
       abis:
         - name: Factory
           file: Factory/abis/Factory.json

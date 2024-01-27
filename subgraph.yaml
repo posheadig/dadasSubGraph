@@ -60,12 +60,10 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - Pair
       abis:
         - name: UniswapV2Pair
           file: ./abis/UniswapV2Pair.json
       eventHandlers:
-        # Add event handlers here if needed
       file: ./src/mapping.ts
 
   - kind: ethereum/contract
@@ -80,10 +78,8 @@ dataSources:
       apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        # Add entities here if needed
       abis:
         - name: Factory
           file: ./abis/Factory.json
       eventHandlers:
-        # Add event handlers here if needed
       file: ./src/mapping.ts

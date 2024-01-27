@@ -1,0 +1,14 @@
+type Token @entity {
+  id: ID!
+  name: String!
+  address: Bytes!
+}
+
+type Pair @entity {
+  id: ID!
+  tokenA: Bytes!
+  tokenB: Bytes!
+  address: Bytes!
+  token0Name: String! 
+  token1Name: String!
+}

@@ -24,6 +24,8 @@ dataSources:
           file: ./abis/NameAsSymbolERC20.json
         - name: Factory
           file: ./abis/Factory.json
+        - name: UniswapV2Pair
+          file: ./abis/UniswapV2Pair.json
       eventHandlers:
         - event: TokenCreated(indexed address,indexed address)
           handler: handleTokenCreated

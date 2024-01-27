@@ -65,6 +65,9 @@ dataSources:
       abis:
         - name: UniswapV2Pair
           file: ./abis/UniswapV2Pair.json
+      eventHandlers:
+        - event: Sync(uint112,uint112)
+          handler: dummyEventHandler
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: Factory
@@ -82,4 +85,7 @@ dataSources:
       abis:
         - name: Factory
           file: ./abis/Factory.json
+      eventHandlers:
+        - event: TokenCreated(address,address)
+          handler: dummyEventHandler
       file: ./src/mapping.ts

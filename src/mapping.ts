@@ -20,7 +20,7 @@ export function handleTokenCreated(event: TokenCreatedEvent): void {
   // Remove the line with 'owner' if it's not in your schema
   // token.owner = event.params.owner
   token.save()
-  
+
   let factoryAddress = "0x7E0987E5b3a30e3f2828572Bb659A548460a3003"; 
 let wethAddress = "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9"; 
 let factoryContract = FactoryContract.bind(Address.fromString(factoryAddress));
@@ -71,4 +71,8 @@ export function updatePairReserves(pairAddress: Bytes): void {
   pairEntity.lastUpdated = pairEntity.block.number;
   
   pairEntity.save();
+}
+
+export function dummyEventHandler(event: EthereumEvent): void {
+  // This is a dummy handler and does nothing
 }

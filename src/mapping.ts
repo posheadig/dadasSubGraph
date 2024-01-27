@@ -1,4 +1,4 @@
-import { BigInt, Address, ethereum } from "@graphprotocol/graph-ts";
+import { BigInt, Address, ethereum, log } from "@graphprotocol/graph-ts";
 import {
   ovTokenBase as ovTokenBaseContract,
   TokenCreated as TokenCreatedEvent
@@ -20,18 +20,25 @@ export function handleTokenCreated(event: TokenCreatedEvent): void {
   let factoryAddress = "0x7E0987E5b3a30e3f2828572Bb659A548460a3003";
   let wethAddress = "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9";
   let factoryContract = FactoryContract.bind(Address.fromString(factoryAddress));
-  let pairAddress = factoryContract.getPair(event.params.token, Address.fromString(wethAddress));
 
-  // Ensure pairAddress is an Address and is not zero
- // if (pairAddress && !Address.fromHexString(pairAddress.toHex()).isZero()) {
-    let pair = Pair.load(pairAddress.toHex());
-    if (pair == null) {
-      pair = new Pair(pairAddress.toHex());
-      pair.tokenA = event.params.token;
-      pair.tokenB = Address.fromString(wethAddress);
-    }
+  let pairAddress: Address;
+  let pairAddressResult = factoryContract.try_getPair(event.params.token, Address.fromString(wethAddress));
+
+  if (pairAddressResult.reverted) {
+    log.warning("getPair call reverted for tokens: {} and {}", [event.params.token.toHex(), wethAddress]);
+    return;
+  } else {
+    pairAddress = pairAddressResult.value;
+  }
+
+  let pair = Pair.load(pairAddress.toHex());
+  if (pair == null) {
+    pair = new Pair(pairAddress.toHex());
+    pair.tokenA = event.params.token;
+    pair.tokenB = Address.fromString(wethAddress);
     pair.save();
- // }
+    log.info("Created new pair: {}", [pair.id]);
+  }
 }
 
 export function handlePairCreated(event: PairCreatedEvent): void {

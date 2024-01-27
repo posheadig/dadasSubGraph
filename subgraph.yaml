@@ -67,9 +67,7 @@ dataSources:
       abis:
         - name: UniswapV2Pair
           file: ./abis/UniswapV2Pair.json
-      eventHandlers:
       file: ./src/mapping.ts
-
   - kind: ethereum/contract
     name: Factory
     network: sepolia

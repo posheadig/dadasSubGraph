@@ -1,4 +1,4 @@
-import { BigInt } from "@graphprotocol/graph-ts"
+import { BigInt, Bytes, Address } from "@graphprotocol/graph-ts"
 import {
   ovTokenBase as ovTokenBaseContract,
   TokenCreated as TokenCreatedEvent,
@@ -26,7 +26,7 @@ let wethAddress = "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9";
 let factoryContract = FactoryContract.bind(Address.fromString(factoryAddress));
 let pairAddress = factoryContract.getPair(event.params.token, Address.fromString(wethAddress));
 
-if (pairAddress != null) {
+if (!pairAddress.isZero()) {
   // Now you can create or update the Pair entity with this pair address
   let pair = Pair.load(pairAddress.toHex());
   if (pair == null) {

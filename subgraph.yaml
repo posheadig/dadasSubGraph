@@ -86,6 +86,6 @@ dataSources:
         - name: Factory
           file: ./abis/Factory.json
       eventHandlers:
-        - event: TokenCreated(address,address)
+        - event: PairCreated(indexed address,indexed address,address,uint256)
           handler: dummyEventHandler
       file: ./src/mapping.ts

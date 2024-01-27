@@ -21,14 +21,16 @@ export function handleTokenCreated(event: TokenCreatedEvent): void {
   let wethAddress = "0x7b79995e5f793A07Bc00c21412e50Ecae098E7f9";
   let factoryContract = FactoryContract.bind(Address.fromString(factoryAddress));
 
-  let pairAddress: Address;
   let pairAddressResult = factoryContract.try_getPair(event.params.token, Address.fromString(wethAddress));
-
   if (pairAddressResult.reverted) {
     log.warning("getPair call reverted for tokens: {} and {}", [event.params.token.toHex(), wethAddress]);
     return;
-  } else {
-    pairAddress = pairAddressResult.value;
+  }
+
+  let pairAddress = pairAddressResult.value;
+  if (pairAddress.toHex() == "0x0000000000000000000000000000000000000000") {
+    log.info("No pair exists for token: {}", [event.params.token.toHex()]);
+    return;
   }
 
   let pair = Pair.load(pairAddress.toHex());

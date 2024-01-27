@@ -39,6 +39,7 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - Pair
+        - Token
       abis:
         - name: ovPoolBase
           file: ./abis/ovPoolBase.json
@@ -65,6 +66,8 @@ dataSources:
       abis:
         - name: UniswapV2Pair
           file: ./abis/UniswapV2Pair.json
+        - name: Factory
+          file: ./abis/factory.json
       eventHandlers:
         - event: Sync(uint112,uint112)
           handler: dummyEventHandler

@@ -55,6 +55,19 @@ dataSources:
       address: "0x7E0987E5b3a30e3f2828572Bb659A548460a3003"
       abi: UniswapV2Pair
       startBlock: 5165647
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Pair
+      abis:
+        - name: UniswapV2Pair
+          file: ./abis/UniswapV2Pair.json
+      eventHandlers:
+        # Add event handlers here if needed
+      file: ./src/mapping.ts
+
   - kind: ethereum/contract
     name: Factory
     network: sepolia
@@ -62,4 +75,15 @@ dataSources:
       address: "0x7E0987E5b3a30e3f2828572Bb659A548460a3003"
       abi: Factory
       startBlock: 5165647
-
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        # Add entities here if needed
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        # Add event handlers here if needed
+      file: ./src/mapping.ts

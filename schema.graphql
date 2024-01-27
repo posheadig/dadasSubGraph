@@ -9,8 +9,11 @@ type Pair @entity {
   tokenA: Bytes!
   tokenB: Bytes!
   address: Bytes!
-  token0Name: String! 
+  token0Name: String!
   token1Name: String!
+  reserve0: BigInt! # Added field for reserve of tokenA
+  reserve1: BigInt! # Added field for reserve of tokenB
+  lastUpdated: BigInt! # Added field for the last update timestamp
 }
 
 type LiquidityPool @entity {

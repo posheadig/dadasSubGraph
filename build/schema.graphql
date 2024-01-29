@@ -6,13 +6,13 @@ type Token @entity {
 
 type Pair @entity {
   id: ID!
-  tokenA: Bytes!
-  tokenB: Bytes!
+  token0: Bytes!
+  token1: Bytes!
   address: Bytes!
   token0Name: String!
   token1Name: String!
-  reserve0: BigInt! # Added field for reserve of tokenA
-  reserve1: BigInt! # Added field for reserve of tokenB
+  reserve0: BigInt! 
+  reserve1: BigInt! 
 }
 
 type LiquidityPool @entity {
@@ -33,5 +33,4 @@ type SwapTransaction @entity {
   amount0Out: BigInt!
   amount1Out: BigInt!
   to: Bytes!
-  timestamp: BigInt!
 }

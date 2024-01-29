@@ -116,8 +116,8 @@ export class Pair extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokenA(): Bytes {
-    let value = this.get("tokenA");
+  get token0(): Bytes {
+    let value = this.get("token0");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -125,12 +125,12 @@ export class Pair extends Entity {
     }
   }
 
-  set tokenA(value: Bytes) {
-    this.set("tokenA", Value.fromBytes(value));
+  set token0(value: Bytes) {
+    this.set("token0", Value.fromBytes(value));
   }
 
-  get tokenB(): Bytes {
-    let value = this.get("tokenB");
+  get token1(): Bytes {
+    let value = this.get("token1");
     if (!value || value.kind == ValueKind.NULL) {
       throw new Error("Cannot return null for a required field.");
     } else {
@@ -138,8 +138,8 @@ export class Pair extends Entity {
     }
   }
 
-  set tokenB(value: Bytes) {
-    this.set("tokenB", Value.fromBytes(value));
+  set token1(value: Bytes) {
+    this.set("token1", Value.fromBytes(value));
   }
 
   get address(): Bytes {
@@ -445,18 +445,5 @@ export class SwapTransaction extends Entity {
 
   set to(value: Bytes) {
     this.set("to", Value.fromBytes(value));
-  }
-
-  get timestamp(): BigInt {
-    let value = this.get("timestamp");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toBigInt();
-    }
-  }
-
-  set timestamp(value: BigInt) {
-    this.set("timestamp", Value.fromBigInt(value));
   }
 }

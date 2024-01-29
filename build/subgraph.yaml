@@ -49,32 +49,11 @@ dataSources:
           file: ovPoolBase/abis/ovPoolBase.json
         - name: NameAsSymbolERC20
           file: ovPoolBase/abis/NameAsSymbolERC20.json
+        - name: UniswapV2Pair
+          file: ovPoolBase/abis/UniswapV2Pair.json
       eventHandlers:
         - event: PairCreated(indexed address,indexed address,address)
           handler: handlePairCreated
-      file: ovTokenBase/ovTokenBase.wasm
-  - kind: ethereum/contract
-    name: UniswapV2Pair
-    network: sepolia
-    source:
-      address: "0x486941CfA4e4E38e4337f1341700E1941cfF5005"
-      abi: UniswapV2Pair
-      startBlock: 5165647
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.6
-      language: wasm/assemblyscript
-      entities:
-        - LiquidityPool
-        - SwapTransaction
-      abis:
-        - name: UniswapV2Pair
-          file: UniswapV2Pair/abis/UniswapV2Pair.json
-        - name: Factory
-          file: UniswapV2Pair/abis/factory.json
-      eventHandlers:
-        - event: Sync(uint112,uint112)
-          handler: dummyEventHandler
       file: ovTokenBase/ovTokenBase.wasm
   - kind: ethereum/contract
     name: Factory
@@ -96,3 +75,25 @@ dataSources:
         - event: PairCreated(indexed address,indexed address,address,uint256)
           handler: dummyEventHandler
       file: ovTokenBase/ovTokenBase.wasm
+templates:
+  - kind: ethereum/contract
+    name: PairTemplate
+    network: sepolia
+    source:
+      abi: UniswapV2Pair
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Pair
+        - SwapTransaction
+      abis:
+        - name: UniswapV2Pair
+          file: PairTemplate/abis/UniswapV2Pair.json
+      eventHandlers:
+        - event: Swap(indexed address,uint256,uint256,uint256,uint256,indexed address)
+          handler: handleSwap
+        - event: Sync(uint112,uint112)
+          handler: handleSync
+      file: templates/PairTemplate/PairTemplate.wasm

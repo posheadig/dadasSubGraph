@@ -6,8 +6,8 @@ type Token @entity {
 
 type Pair @entity {
   id: ID!
-  tokenA: Bytes!
-  tokenB: Bytes!
+  token0: Bytes!
+  token1: Bytes!
   address: Bytes!
   token0Name: String!
   token1Name: String!
@@ -33,5 +33,4 @@ type SwapTransaction @entity {
   amount0Out: BigInt!
   amount1Out: BigInt!
   to: Bytes!
-  timestamp: BigInt!
 }

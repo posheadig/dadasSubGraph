@@ -7,9 +7,9 @@ import { PairCreated as PairCreatedEvent } from "../generated/ovPoolBase/ovPoolB
 import { UniswapV2Pair as UniswapV2PairContract } from "../generated/UniswapV2Pair/UniswapV2Pair";
 import { Factory as FactoryContract } from "../generated/Factory/Factory";
 import { Token, Pair } from "../generated/schema";
+import { SwapTransaction } from "../generated/schema";
+import { PairTemplate } from "../generated/templates";
 import { NameAsSymbolERC20 as NameAsSymbolERC20Contract } from "../generated/ovTokenBase/NameAsSymbolERC20";
-
-const WEI_IN_ETHER = BigInt.fromI32(10).pow(18);
 
 export function handleTokenCreated(event: TokenCreatedEvent): void {
   let token = new Token(event.params.token.toHex());
@@ -33,7 +33,7 @@ export function handleTokenCreated(event: TokenCreatedEvent): void {
     log.info("No pair exists for token: {}", [event.params.token.toHex()]);
     return;
   }
-
+  PairTemplate.create(pairAddress);
   let pair = Pair.load(pairAddress.toHex());
   if (pair == null) {
     pair = new Pair(pairAddress.toHex());
@@ -42,31 +42,27 @@ export function handleTokenCreated(event: TokenCreatedEvent): void {
     let token1Address = pairData.token1();
     let reserves = pairData.getReserves();
 
-    pair.tokenA = event.params.token;
-    pair.tokenB = Address.fromString(wethAddress);
+    // Assign token addresses
+    pair.token0 = token0Address;
+    pair.token1 = token1Address;
     pair.address = pairAddress;
 
-    // Convert addresses to strings for comparison
-    let tokenAStr = event.params.token.toHex();
-    let token0Str = token0Address.toHex();
-    let token1Str = token1Address.toHex();
+    // Assign names
+    let token0Contract = NameAsSymbolERC20Contract.bind(token0Address);
+    let token1Contract = NameAsSymbolERC20Contract.bind(token1Address);
+    pair.token0Name = token0Contract.name();
+    pair.token1Name = token1Contract.name();
 
-    // Assign reserves and names based on the sorted order of token addresses
-    pair.reserve0 = tokenAStr < token1Str ? reserves.value0.div(WEI_IN_ETHER) : reserves.value1.div(WEI_IN_ETHER);
-    pair.reserve1 = tokenAStr < token1Str ? reserves.value1.div(WEI_IN_ETHER) : reserves.value0.div(WEI_IN_ETHER);
-
-    let tokenAContract = NameAsSymbolERC20Contract.bind(token0Address);
-    let tokenBContract = NameAsSymbolERC20Contract.bind(token1Address);
-    pair.token0Name = tokenAContract.name();
-    pair.token1Name = tokenBContract.name();
-
+    // Assign reserves
+    pair.reserve0 = reserves.value0;
+    pair.reserve1 = reserves.value1;
     pair.save();
     log.info("Created new pair: {}", [pair.id]);
   }
 }
 
-
 export function handlePairCreated(event: PairCreatedEvent): void {
+  PairTemplate.create(event.params.pair);
   let pair = new Pair(event.params.pair.toHex());
   let pairContract = UniswapV2PairContract.bind(event.params.pair);
 
@@ -74,29 +70,22 @@ export function handlePairCreated(event: PairCreatedEvent): void {
   let token1Address = pairContract.token1();
   let reserves = pairContract.getReserves();
 
-  // Convert addresses to strings for comparison
-  let tokenAStr = event.params.tokenA.toHex();
-  let tokenBStr = event.params.tokenB.toHex();
-  let token0Str = token0Address.toHex();
-  let token1Str = token1Address.toHex();
-
-  // Assign tokens A and B based on the event parameters
-  pair.tokenA = event.params.tokenA;
-  pair.tokenB = event.params.tokenB;
+  pair.token0 = token0Address;
+  pair.token1 = token1Address;
   pair.address = event.params.pair;
 
-  // Assign token names and reserves based on the sorted order of token addresses
-  let tokenAContract = NameAsSymbolERC20Contract.bind(token0Address);
-  let tokenBContract = NameAsSymbolERC20Contract.bind(token1Address);
-  pair.token0Name = tokenAContract.name();
-  pair.token1Name = tokenBContract.name();
+  // Assign names
+  let token0Contract = NameAsSymbolERC20Contract.bind(token0Address);
+  let token1Contract = NameAsSymbolERC20Contract.bind(token1Address);
+  pair.token0Name = token0Contract.name();
+  pair.token1Name = token1Contract.name();
 
-  pair.reserve0 = tokenAStr < token1Str ? reserves.value0.div(WEI_IN_ETHER) : reserves.value1.div(WEI_IN_ETHER);
-  pair.reserve1 = tokenAStr < token1Str ? reserves.value1.div(WEI_IN_ETHER) : reserves.value0.div(WEI_IN_ETHER);
+  // Assign reserves directly
+  pair.reserve0 = reserves.value0;
+  pair.reserve1 = reserves.value1;
 
   pair.save();
 }
-
 
 export function dummyEventHandler(event: ethereum.Event): void {
   // This is a dummy handler and does nothing
